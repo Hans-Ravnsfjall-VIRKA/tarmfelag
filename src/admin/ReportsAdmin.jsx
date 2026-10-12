@@ -54,7 +54,7 @@ function ReportsAdmin({ onNewFn, onListView }) {
   };
   if (!rows) return <div className="tf-admin-body"><div className="tf-admin-count" style={{ padding: "24px 4px" }}>Innlesur…</div></div>;
   if (rows.length === 0) {
-    return <div className="tf-admin-body"><EmptyState icon={TriangleAlert} title="Eingar fráboðanir enn" subtitle="Tá ið brúkarar boða frá um broytingar, so sum at eitt vesi er stongt, síggjast tær her." /></div>;
+    return <div className="tf-admin-body"><EmptyState icon={TriangleAlert} title="Ongar fráboðanir..." subtitle="Tá ið brúkarar boða frá um broytingar, so sum at eitt vesi er stongt, síggjast tær her." /></div>;
   }
   const open = rows.filter((r) => r.status === "new");
   const shown = showAll ? rows : open;
