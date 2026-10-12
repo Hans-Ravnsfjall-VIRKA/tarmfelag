@@ -43,7 +43,7 @@ function AccessLog() {
   }
   const visits = (rows || []).filter((r) => r.kind !== "login").length;
   const logins = (rows || []).filter((r) => r.kind === "login").length;
-  const cset = /* @__PURE__ */ new Set();
+  const cset = new Set();
   for (const r of rows || []) {
     const k = r.client_id || r.ip;
     if (k) cset.add(k);

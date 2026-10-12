@@ -1,9 +1,21 @@
 [build]
   command = "npm run build"
   publish = "dist"
+
 [build.environment]
   NODE_VERSION = "20"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Permissions-Policy = "geolocation=(self), camera=(self), microphone=()"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://atmtpxlzuxtqydikhnda.supabase.co https://server.arcgisonline.com https://commons.wikimedia.org https://upload.wikimedia.org; connect-src 'self' https://atmtpxlzuxtqydikhnda.supabase.co wss://atmtpxlzuxtqydikhnda.supabase.co https://valhalla1.openstreetmap.de https://nominatim.openstreetmap.org https://photon.komoot.io https://ipwho.is https://get.geojs.io https://ipapi.co https://freeipapi.com"

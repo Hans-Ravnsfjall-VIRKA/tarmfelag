@@ -95,7 +95,7 @@ function ReviewsAdmin({ onNewFn, onListView }) {
     const hidden = list.filter((r) => r.is_hidden).length;
     return <div className="tf-admin-body"><button className="tf-backbtn" onClick={() => setOpenKey(null)}><ChevronLeft size={18} /> Øll vesi</button><div className="tf-admin-subhead">{name(openKey)}</div><div className="tf-admin-count">{list.length} ummæli{hidden ? ` · ${hidden} fjald` : ""}</div><div className="tf-admin-list">{list.map((r) => <div key={r.id} className="tf-rev-item"><button className="tf-rev-main" onClick={() => setForm({ ...r })}><div className="tf-rev-rate"><Star size={12} strokeWidth={2.4} fill="currentColor" />{r.rating}</div><div className="tf-rev-body"><div className="tf-rev-text">{r.comment || "(eingin tekstur)"}</div><div className="tf-rev-meta">{r.author || "Dulnevndur"} · {fmtDate(r.created_at)}</div></div></button><button className={`tf-rev-eye${r.is_hidden ? " off" : ""}`} onClick={() => toggleHidden(r)}>{r.is_hidden ? "Vís" : "Fjal"}</button></div>)}</div></div>;
   }
-  const groupsMap = /* @__PURE__ */ new Map();
+  const groupsMap = new Map();
   for (const r of rows) {
     if (!groupsMap.has(r.toilet_key)) groupsMap.set(r.toilet_key, []);
     groupsMap.get(r.toilet_key).push(r);

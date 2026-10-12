@@ -3,7 +3,7 @@ const toMin = (t) => {
   return Number(h) * 60 + Number(m);
 };
 const fmt = (t) => t.slice(0, 5).replace(":", ".");
-function evalHours(rows, now = /* @__PURE__ */ new Date()) {
+function evalHours(rows, now = new Date()) {
   if (!rows || rows.length === 0) return { open: true, kind: "always" };
   const dow = now.getDay();
   const today = rows.filter((r) => r.day_of_week === dow).sort((a, b) => toMin(a.open_time) - toMin(b.open_time));
