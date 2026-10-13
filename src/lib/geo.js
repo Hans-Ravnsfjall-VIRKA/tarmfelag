@@ -9,6 +9,7 @@ function haversine(a, b) {
   return 2 * R * Math.asin(Math.sqrt(h));
 }
 function getPosition() {
+  if (__NATIVE__) return import("./nativeGeo.js").then((m) => m.nativePosition(8e3, 3e4, false));
   return new Promise((resolve) => {
     if (!("geolocation" in navigator)) return resolve(null);
     navigator.geolocation.getCurrentPosition(
@@ -19,6 +20,7 @@ function getPosition() {
   });
 }
 function getPositionPrecise() {
+  if (__NATIVE__) return import("./nativeGeo.js").then((m) => m.nativePosition(15e3, 0, true));
   return new Promise((resolve) => {
     if (!("geolocation" in navigator)) return resolve(null);
     navigator.geolocation.getCurrentPosition(
@@ -27,6 +29,22 @@ function getPositionPrecise() {
       { enableHighAccuracy: true, timeout: 15e3, maximumAge: 0 }
     );
   });
+}
+function watchLive(onFix, onUnavailable) {
+  if (__NATIVE__) {
+    let stop = null, dead = false;
+    import("./nativeGeo.js").then((m) => m.nativeWatch(onFix, onUnavailable)).then((s) => {
+      if (dead) s(); else stop = s;
+    });
+    return () => { dead = true; if (stop) stop(); };
+  }
+  if (!("geolocation" in navigator)) { onUnavailable(); return () => {}; }
+  const id = navigator.geolocation.watchPosition(
+    (p) => onFix({ lat: p.coords.latitude, lng: p.coords.longitude, heading: p.coords.heading, acc: p.coords.accuracy }),
+    () => {},
+    { enableHighAccuracy: true, maximumAge: 1e3, timeout: 2e4 }
+  );
+  return () => navigator.geolocation.clearWatch(id);
 }
 async function reverseGeocode(lat, lng) {
   try {
@@ -88,6 +106,7 @@ function snapToRoute(pos, coords, cum) {
   return best;
 }
 export {
+  watchLive,
   cumulativeDistances,
   fmtDistance,
   getPosition,

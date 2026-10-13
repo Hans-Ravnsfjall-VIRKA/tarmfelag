@@ -7,8 +7,9 @@ import ToiletDetail from "./ToiletDetail.jsx";
 import WhereUsedScreen from "./WhereUsedScreen.jsx";
 import EditMessageScreen from "./EditMessageScreen.jsx";
 const NavOverlay = lazy(() => import("./NavOverlay.jsx"));
-const AdminApp = lazy(() => import("./admin/AdminApp.jsx"));
-const AccessLog = lazy(() => import("./AccessLog.jsx"));
+const NATIVE = __NATIVE__;
+const AdminApp = NATIVE ? null : lazy(() => import("./admin/AdminApp.jsx"));
+const AccessLog = NATIVE ? null : lazy(() => import("./AccessLog.jsx"));
 import { LangProvider, useT, LangToggle } from "./i18n.jsx";
 import { NavProvider, useNav } from "./nav.jsx";
 import { logVisit } from "./lib/accessLog.js";
@@ -43,11 +44,11 @@ function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
   useEffect(() => {
-    if (hash === "#admin" || hash === "#atgongd-2026") return;
+    if (NATIVE || hash === "#admin" || hash === "#atgongd-2026") return;
     logVisit();
   }, [hash]);
-  if (hash === "#admin") return <Suspense fallback={<div className="tf-admin" />}><AdminApp /></Suspense>;
-  if (hash === "#atgongd-2026") return <Suspense fallback={<div className="tf-admin" />}><AccessLog /></Suspense>;
+  if (!NATIVE && hash === "#admin") return <Suspense fallback={<div className="tf-admin" />}><AdminApp /></Suspense>;
+  if (!NATIVE && hash === "#atgongd-2026") return <Suspense fallback={<div className="tf-admin" />}><AccessLog /></Suspense>;
   return <LangProvider><NavProvider><Shell /></NavProvider></LangProvider>;
 }
 export {

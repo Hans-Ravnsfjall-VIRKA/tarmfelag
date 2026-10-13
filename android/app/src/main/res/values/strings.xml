@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Tarmfelagið</string>
+    <string name="title_activity_main">Tarmfelagið</string>
+    <string name="package_name">fo.tarmfelag.app</string>
+    <string name="custom_url_scheme">fo.tarmfelag.app</string>
+</resources>

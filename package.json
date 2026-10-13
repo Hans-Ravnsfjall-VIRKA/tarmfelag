@@ -7,9 +7,19 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:native": "vite build --mode native",
+    "cap:sync": "npm run build:native && cap sync",
+    "cap:ios": "npm run cap:sync && cap open ios",
+    "cap:android": "npm run cap:sync && cap open android",
+    "cap:assets": "capacitor-assets generate --iconBackgroundColor '#2e8c78' --splashBackgroundColor '#2e8c78'"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app-launcher": "^8.0.1",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/geolocation": "^8.2.3",
+    "@capacitor/ios": "^8.5.3",
     "@supabase/supabase-js": "^2.45.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.456.0",
@@ -17,6 +27,8 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.3",
     "@vitejs/plugin-react": "^4.3.1",
     "vite": "^5.4.0"
   }

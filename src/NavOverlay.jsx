@@ -26,7 +26,7 @@ import { useT } from "./i18n.jsx";
 import { useNav } from "./nav.jsx";
 import BuildingPhoto from "./BuildingPhoto.jsx";
 import { TILE_URL, TILE_OPTS } from "./lib/maptiles.js";
-import { getPosition, fmtDistance, haversine, cumulativeDistances, snapToRoute } from "./lib/geo.js";
+import { getPosition, watchLive, fmtDistance, haversine, cumulativeDistances, snapToRoute } from "./lib/geo.js";
 import { getRoute } from "./lib/routing.js";
 import { foInstruction } from "./lib/maneuver-fo.js";
 import { openDirections } from "./lib/directions.js";
@@ -144,17 +144,7 @@ function NavOverlay({ toilet, fix }) {
   }, [route]);
   useEffect(() => {
     if (!navigating) return;
-    if (!("geolocation" in navigator)) {
-      setStatus("nolocation");
-      return;
-    }
-    const id = navigator.geolocation.watchPosition(
-      (p) => setLive({ lat: p.coords.latitude, lng: p.coords.longitude, heading: p.coords.heading, acc: p.coords.accuracy }),
-      () => {
-      },
-      { enableHighAccuracy: true, maximumAge: 1e3, timeout: 2e4 }
-    );
-    return () => navigator.geolocation.clearWatch(id);
+    return watchLive(setLive, () => setStatus("nolocation"));
   }, [navigating]);
   useEffect(() => {
     if (!navigating || !live || !route || !cumRef.current) return;
